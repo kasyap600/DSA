@@ -5,8 +5,9 @@ class Solution {
             return;
         }
         subset.add(nums[index]);
+        //pick
         createSubset(nums,index+1,ans,subset);
-
+        //not pick
         subset.remove(subset.size()-1);
         createSubset(nums,index+1,ans,subset);
 

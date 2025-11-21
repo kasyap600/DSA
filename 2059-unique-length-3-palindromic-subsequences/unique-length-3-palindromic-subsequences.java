@@ -1,14 +1,4 @@
 class Solution {
-    private boolean isPalindrome(String s){
-        int low = 0, high = s.length() - 1;
-        char[] c = s.toCharArray();
-        while (low < high) {
-            if (c[low] != c[high]) return false;
-            low++;
-            high--;
-        }
-        return true;
-    }
     public int countPalindromicSubsequence(String s) {
         int n = s.length();
         int[] first = new int[26];

@@ -1,30 +1,30 @@
 class Solution {
-    private boolean check(String s, int start,int end){
-        while(start<=end){
-            if(s.charAt(start) != s.charAt(end)) return false;
-            start++;
-            end--;
+    private boolean check(String s,int left,int right){
+        while(left<=right){
+            if(s.charAt(left)!=s.charAt(right)) return false;
+            left++;
+            right--;
         }
         return true;
     }
-    private void backtrack(int idx,List<List<String>> ans,List<String> path,String s){
-        if(idx==s.length()){
-            ans.add(new ArrayList<>(path));
+    private void solve(String s,int i,List<String> list,List<List<String>> ans){
+        if(i==s.length()){
+            ans.add(new ArrayList<>(list));
             return;
         }
-        for(int i=idx;i<s.length();i++){
-            if(check(s,idx,i)){
-                path.add(s.substring(idx,i+1));
-                backtrack(i+1,ans,path,s);
-                path.remove(path.size()-1);
+        for(int idx=i;idx<s.length();idx++){
+            if(check(s,i,idx)){
+                list.add(s.substring(i,idx+1));
+                solve(s,idx+1,list,ans);
+                list.remove(list.size()-1);
             }
         }
+
     }
     public List<List<String>> partition(String s) {
         List<List<String>> ans=new ArrayList<>();
-        List<String> path=new ArrayList<>();
         if(s.length()==0) return ans;
-        backtrack(0,ans,path,s);
+        solve(s,0,new ArrayList<>(),ans);
         return ans;
     }
 }

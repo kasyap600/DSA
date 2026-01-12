@@ -1,18 +1,18 @@
 class Solution {
-    private void solve(int i,int sum,int n,int k,List<List<Integer>> ans,List<Integer> nums){
-        if(sum==n && nums.size()==k){
-            ans.add(new ArrayList<>(nums));
+    private void solve(int i,int sum,List<Integer> list,List<List<Integer>> ans,int k){
+        if(sum==0 && list.size()==k){
+            ans.add(new ArrayList<>(list));
             return;
         }
-        if(sum<0 || i>9) return;
-        nums.add(i);
-        solve(i+1,sum+i,n,k,ans,nums);
-        nums.remove(nums.size()-1);
-        solve(i+1,sum,n,k,ans,nums);
+        if(i<1 || sum<0) return;
+        list.add(i);
+        solve(i-1,sum-i,list,ans,k);
+        list.remove(list.size()-1);
+        solve(i-1,sum,list,ans,k);
     }
     public List<List<Integer>> combinationSum3(int k, int n) {
         List<List<Integer>> ans=new ArrayList<>();
-        solve(1,0,n,k,ans,new ArrayList<>());
+        solve(9,n,new ArrayList<>(),ans,k);
         return ans;
     }
 }

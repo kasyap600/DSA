@@ -3,15 +3,14 @@ class Solution {
         int n=nums.size();
         int[] ans=new int[n];
         for(int i=0;i<n;i++){
-            int num=nums.get(i);
-            int can=-1;
-            for(int j=1;j<num;j++){
-                if((j | (j+1))==num){
-                    can=j;
-                    break;
-                }
+            int tar=nums.get(i);
+            int res=-1;
+            int bitmask=1;
+            while((tar & bitmask) != 0){
+                res=tar-bitmask;
+                bitmask<<=1;
             }
-            ans[i]=can;
+            ans[i]=res;
         }
         return ans;
     }

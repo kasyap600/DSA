@@ -1,20 +1,22 @@
 class Solution {
-    private int helper(int[] nums,int mid){
-        int n=nums.length;
+    private int findPossible(int[] nums,int mid){
         int sum=0;
-        for(int i=0;i<n;i++){
-            sum+=Math.ceil((double) nums[i]/mid);
+        for(int i=0;i<nums.length;i++){
+            sum+=Math.ceil((double) nums[i]/ mid);
         }
         return sum;
     }
     public int minEatingSpeed(int[] piles, int h) {
+        int n=piles.length;
+        int low=1,high=0;
+        for(int p:piles){
+            high=Math.max(high,p);
+        }
         int maxi=Integer.MIN_VALUE;
-        for(int num:piles) maxi=Math.max(maxi,num);
-        int low=1,high=maxi;
         int k=0;
         while(low<=high){
-            int mid=(low+high)/2;
-            if(helper(piles,mid)<=h){
+            int mid=low+(high-low)/2;
+            if(findPossible(piles,mid)<=h){
                 k=mid;
                 high=mid-1;
             }

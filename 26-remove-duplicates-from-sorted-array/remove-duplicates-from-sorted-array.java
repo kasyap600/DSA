@@ -7,6 +7,7 @@ class Solution {
             if(nums[i]!=nums[idx]){
                 idx++;
                 nums[idx]=nums[i];
+               
             }
             i++;
         }

@@ -1,22 +1,25 @@
 class Solution {
-    
-    private void solve(List<String> ls,int n,int k,String s){
-        if(s.length()==n){
-            ls.add(s);
-            return;
-        }
-        for(char ch='a';ch<='c';ch++){
-            if(s.length()==0 || s.charAt(s.length()-1)!=ch){
-                solve(ls,n,k,s+ch);
+    public String getHappyString(int n, int k) {
+        int tot=3*(1<<(n-1));
+        if(k>tot) return "";
+        StringBuilder ans=new StringBuilder();
+        char prev='#';
+        for(int i=0;i<n;i++){
+            for(char ch='a';ch<='c';ch++){
+                if(ch==prev) continue;
+
+                int rem=n-i-1;
+                int cnt=1<<rem;
+                if(k>cnt){
+                    k-=cnt;
+                }
+                else{
+                    ans.append(ch);
+                    prev=ch;
+                    break;
+                }
             }
         }
-    }
-    public String getHappyString(int n, int k) {
-        List<String> ls=new ArrayList<>();
-        
-        solve(ls,n,k,"");
-        if(k>ls.size()) return "";
-        return ls.get(k-1);
-
+        return ans.toString();
     }
 }

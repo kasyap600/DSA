@@ -1,22 +1,24 @@
 class Solution {
-    private int func(int i,int buy,int fee,int n,int[] arr,int[][] dp){
-        if(i==n) return 0;
-        if(dp[i][buy] != -1) return dp[i][buy];
+    private int solve(int[] prices,int[][] dp,int i,int canBuy,int fee){
+        if(i>=prices.length) return 0;
+        if(dp[i][canBuy]!=-1) return dp[i][canBuy];
         int profit=0;
-        if(buy==0){
-            profit=Math.max(0+func(i+1,0,fee,n,arr,dp),-arr[i]+func(i+1,1,fee,n,arr,dp));
+        if(canBuy==1){
+            int idle=solve(prices,dp,i+1,canBuy,fee);
+            int buy=-prices[i]+solve(prices,dp,i+1,0,fee);
+            profit=Math.max(idle,buy);
         }
-        if(buy==1){
-            profit=Math.max(0+func(i+1,1,fee,n,arr,dp),arr[i]-fee+func(i+1,0,fee,n,arr,dp));
+        else{
+            int idle=solve(prices,dp,i+1,canBuy,fee);
+            int sell=prices[i]+solve(prices,dp,i+1,1,fee)-fee;
+            profit=Math.max(idle,sell);
         }
-        return dp[i][buy]=profit;
+        return dp[i][canBuy]=profit;
     }
     public int maxProfit(int[] prices, int fee) {
         int n=prices.length;
         int[][] dp=new int[n][2];
-        for(int[] row1:dp){
-            Arrays.fill(row1,-1);
-        }
-        return func(0,0,fee,n,prices,dp);
+        for(int[] r:dp) Arrays.fill(r,-1);
+        return solve(prices,dp,0,1,fee);
     }
 }

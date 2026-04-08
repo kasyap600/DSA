@@ -1,25 +1,26 @@
 class Solution {
-    private int func(int i,int buy,int cap,int n,int[] arr,int[][][] dp){
-        if(i==n || cap==0) return 0;
-        if(dp[i][buy][cap] != -1) return dp[i][buy][cap];
+    private int solve(int[] prices,int[][][] dp,int trans,int k,int i,int canBuy){
+        if(i>=prices.length || trans>=k) return 0;
+        if(dp[i][canBuy][trans] != -1) return dp[i][canBuy][trans];
         int profit=0;
-
-        if(buy==0){
-            profit=Math.max(0+func(i+1,0,cap,n,arr,dp),-arr[i]+func(i+1,1,cap,n,arr,dp));
+        if(canBuy==1){
+            int idle=solve(prices,dp,trans,k,i+1,canBuy);
+            int buy=-prices[i]+solve(prices,dp,trans,k,i+1,0);
+            profit=Math.max(idle,buy);
         }
-        if(buy==1){
-            profit=Math.max(0+func(i+1,1,cap,n,arr,dp) , arr[i]+func(i+1,0,cap-1,n,arr,dp));
+        else{
+            int idle=solve(prices,dp,trans,k,i+1,canBuy);
+            int sell=prices[i]+solve(prices,dp,trans+1,k,i+1,1);
+            profit=Math.max(idle,sell);
         }
-        return dp[i][buy][cap]=profit;
+        return dp[i][canBuy][trans]=profit;
     }
     public int maxProfit(int k, int[] prices) {
         int n=prices.length;
-        if(n==0) return 0;
-        int[][][] dp=new int[n][2][k+1];
-        for(int i=0;i<n;i++)
-            for(int j=0;j<2;j++)
-                for(int a=0;a<=k;a++)
-                    dp[i][j][a]=-1;
-        return func(0,0,k,n,prices,dp);
+        int[][][] dp=new int[n][2][k];
+        for(int[][] mat:dp){
+            for(int[] r:mat) Arrays.fill(r,-1); 
+        }
+        return solve(prices,dp,0,k,0,1);
     }
 }

@@ -3,13 +3,14 @@ class Solution {
         if(i>=prices.length) return 0;
         if(dp[i][canBuy]!=-1) return dp[i][canBuy];
         int profit=0;
+        int idle=solve(prices,dp,i+1,canBuy,fee);
         if(canBuy==1){
-            int idle=solve(prices,dp,i+1,canBuy,fee);
+        
             int buy=-prices[i]+solve(prices,dp,i+1,0,fee);
             profit=Math.max(idle,buy);
         }
         else{
-            int idle=solve(prices,dp,i+1,canBuy,fee);
+            //int idle=solve(prices,dp,i+1,canBuy,fee);
             int sell=prices[i]+solve(prices,dp,i+1,1,fee)-fee;
             profit=Math.max(idle,sell);
         }

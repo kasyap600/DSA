@@ -4,7 +4,7 @@ class Solution {
         int low=0,high=n-1;
         int ans=n;
         while(low<=high){
-            int mid=(low+high)/2;
+            int mid=low+(high-low)/2;
             if(nums[mid]>=target){
                 ans=mid;
                 high=mid-1;
@@ -14,5 +14,3 @@ class Solution {
         return ans;
     }
 }
-//TC->O(logN)
-//SC->O(1)
